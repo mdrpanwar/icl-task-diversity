@@ -42,9 +42,9 @@ def get_bsln_preds(train_task: Task, j_batch_samplers: dict[str, Sampler], n_sam
     p_bsln_models = {
         get_model_name(model): jax.pmap(get_baseline_step(model), axis_name="device")
         for model in train_task.get_default_eval_models()
-    }
+    } # {"Ridge": Ridge model object, "dMMSE": dMMSE model object}
     # Loop through eval tasks
-    for task_name, j_sample_batch in j_batch_samplers.items():
+    for task_name, j_sample_batch in j_batch_samplers.items(): # {"Pretrain": sharded batch of inputs}
         # Initialize task preds
         preds[task_name] = {"True": []}
         for model_name in p_bsln_models:
